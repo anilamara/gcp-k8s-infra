@@ -9,18 +9,21 @@ jobs:
     name: "Terraform Apply"
     runs-on: ubuntu-latest
 
-    env:
-      GOOGLE_CREDS: ${{ secrets.GOOGLE_CREDS }}
+    permissions:
+      contents: 'read'
+      id-token: 'write'   # very important for workload identity federation
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: '${{ secrets.GOOGLE_CREDS }}'
+
       - name: Setup Google Cloud SDK
         uses: google-github-actions/setup-gcloud@v1
-        with:
-          version: 'latest'
-          service_account_key: ${{ secrets.GOOGLE_CREDS }}
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
