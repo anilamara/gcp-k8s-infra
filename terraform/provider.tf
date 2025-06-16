@@ -8,7 +8,6 @@ terraform {
 }
 
 provider "google" {
-  credentials = file("gcp-key.json")
   project     = "amara-463104"
   region      = "southamerica-east1"
   zone        = "southamerica-east1-a"
